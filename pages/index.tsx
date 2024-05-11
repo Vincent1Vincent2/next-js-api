@@ -1,5 +1,4 @@
 import { useEffect } from "react";
-import Posts from "../components/posts/Posts";
 export default function Home() {
   useEffect(() => {
     let storedTheme =
@@ -32,7 +31,7 @@ export default function Home() {
 
   return (
     <main>
-      <Posts />
+      <p>yo</p>
     </main>
   );
 }

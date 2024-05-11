@@ -1,9 +1,11 @@
 import { NextApiRequest, NextApiResponse } from "next";
+import dbConnect from "../../../util/dbConnect";
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
+  await dbConnect();
   if (req.method === "POST") {
     // Clear the username cookie
     res.setHeader("Set-Cookie", "username=; Path=/; Max-Age=0");

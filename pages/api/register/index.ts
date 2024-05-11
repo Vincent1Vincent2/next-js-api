@@ -7,9 +7,9 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
+  await dbConnect();
   if (req.method === "POST") {
     try {
-      await dbConnect();
       const { username, password } = req.body;
 
       // 2: Validation error if username and password are provided and not empty

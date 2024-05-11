@@ -2,6 +2,7 @@ import busboy from "busboy";
 import { NextApiRequest, NextApiResponse } from "next";
 import { getImageBucket } from "../../../models/image";
 import User from "../../../models/user";
+import dbConnect from "../../../util/dbConnect";
 
 export const config = {
   api: {
@@ -13,6 +14,7 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
+  await dbConnect();
   if (req.method !== "POST") {
     return res.status(405).end(); // Method Not Allowed
   }
