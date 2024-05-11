@@ -1,22 +1,17 @@
-import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import Header from "../components/header/Header";
 import "./globals.css";
+import Home from "./index.";
 
-const inter = Inter({ subsets: ["latin"] });
+const queryClient = new QueryClient();
 
-export const metadata: Metadata = {
-  title: "Big Sales",
-  description: "Ge ditt gamla nytt liv",
+const Index = ({}) => {
+  return (
+    <QueryClientProvider client={queryClient}>
+      <Header />
+      <Home />
+    </QueryClientProvider>
+  );
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
-  return (
-    <html lang="en">
-      <body className={inter.className}>{children}</body>
-    </html>
-  );
-}
+export default Index;
