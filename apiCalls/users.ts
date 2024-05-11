@@ -1,57 +1,46 @@
-import axios from "axios";
+export default interface Message {
+  message: boolean;
+}
 
-export async function loginUser(username: string, password: string) {
+export async function authenticateUser() {
+  const response = await fetch(
+    "/api/authenticate",
+
+    {
+      method: "GET",
+    }
+  );
+  if (response) {
+    const authenticated: boolean | undefined = await response.json();
+    return authenticated;
+  }
+}
+
+export async function logInUser(username: string, password: string) {
   const signInDetails = { username, password };
-  const response = await axios.post("/api/login", signInDetails);
-  if (response.status === 200) {
-    location.reload();
-    return response.data;
+  const response = await fetch("/api/login", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(signInDetails),
+  });
+  if (response.ok) {
+    window.location.reload();
+    return response;
   }
 }
 
-export async function getAllUsers() {
-  const response = await axios.get("/api/users");
-
-  if (response.status === 200) {
-    return response.data;
-  }
-}
-export async function getLoggedInUser() {
-  const response = await axios.get("/api/authenticate");
-  if (response.status === 200) {
-    return response.data;
-  }
-}
 export async function logOutUser() {
-  const response = await axios.post("/api/logout");
-  if (response.status === 200) {
-    location.reload();
-    return response.data;
-  }
-}
+  const response = await fetch(
+    "/api/logout",
 
-export async function giveAdmin(id: string | undefined) {
-  const response = await axios.put(`/api/${id}`);
-
-  if (response.status === 200) {
-    location.reload();
-    return response.data;
-  }
-}
-
-export async function deleteUser(id: string | undefined) {
-  const response = await axios.delete(`/api/${id}`);
-
-  if (response.status === 204) {
-    location.reload();
-    return response.data;
-  }
-}
-export async function registerUser(username: string, password: string) {
-  const signUpDetails = { username, password };
-  const response = await axios.post("/api/register", signUpDetails);
-
-  if (response.status === 200) {
-    return response.data;
+    {
+      method: "POST",
+    }
+  );
+  if (response.ok) {
+    window.location.reload();
+    return response;
   }
 }
