@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import Header from "../components/header/Header";
 export default function Home() {
   useEffect(() => {
     let storedTheme =
@@ -31,6 +32,7 @@ export default function Home() {
 
   return (
     <main>
+      <Header />
       <p>yo</p>
     </main>
   );
