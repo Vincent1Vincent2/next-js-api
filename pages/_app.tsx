@@ -1,5 +1,5 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import Header from "../components/header/Header";
+import GuestHeader from "../components/header/GuestHeader";
 import "./globals.css";
 import Home from "./index.";
 
@@ -8,7 +8,7 @@ const queryClient = new QueryClient();
 const Index = ({}) => {
   return (
     <QueryClientProvider client={queryClient}>
-      <Header />
+      <GuestHeader />
       <Home />
     </QueryClientProvider>
   );

@@ -15,6 +15,7 @@ export default function Posts() {
   if (isLoading) return "Loading...";
 
   if (error) return "An error has occurred:" + error.message;
+  console.log(posts);
 
   return (
     <div className="flex flex-wrap justify-center gap-5 py-10 mx-2">

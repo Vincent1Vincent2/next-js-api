@@ -24,7 +24,7 @@ export async function getLoggedInUser() {
 }
 export async function logOutUser() {
   const response = await axios.post("/api/logout");
-  if (response.status === 204) {
+  if (response.status === 200) {
     location.reload();
     return response.data;
   }
