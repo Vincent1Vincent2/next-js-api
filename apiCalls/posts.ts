@@ -22,13 +22,13 @@ export async function createNewPost(
   const response = await axios.post("/api/posts", postData);
   if (response.status === 201) {
     let post: Post = response.data;
-    location.replace(`http://localhost:5173/posts/${post._id}`);
+    location.replace(`posts/${post._id}`);
     return response.data;
   }
 }
 
 export async function getPosts() {
-  const response = await axios.get(`/api/posts/`);
+  const response = await axios.get("/api/posts");
   if (response.status === 200) {
     return response.data;
   }
@@ -61,7 +61,7 @@ export async function updatePost(
   const response = await axios.put(`/api/posts/${_id}`, postContent);
   if (response.status === 200) {
     let post: Post = response.data;
-    location.replace(`http://localhost:5173/posts/${post._id}`);
+    location.replace(`/posts/${post._id}`);
     return response.data;
   }
 }
