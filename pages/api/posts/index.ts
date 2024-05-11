@@ -6,8 +6,9 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  await dbConnect();
   if (req.method === "GET") {
+    await dbConnect();
+
     // 1: Get all posts
     const posts = await Post.find().lean().exec();
 

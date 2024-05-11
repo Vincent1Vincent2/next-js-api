@@ -6,10 +6,10 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  await dbConnect();
   if (req.method === "GET") {
     // 1. Get the user session from the request
-
+    await dbConnect();
+    console.log("in");
     const userSessionCookie = req.cookies.username;
     const user = await User.find({ username: userSessionCookie });
 
