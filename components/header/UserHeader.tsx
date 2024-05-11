@@ -30,14 +30,6 @@ export default function UserHeader() {
           Big sales
         </h1>
       </a>
-      {response.data?.map((user) => (
-        <p
-          className="px-5 text-lg text-center max-sm:text-sm"
-          key={user.username}
-        >
-          Welcome {user.username}!
-        </p>
-      ))}
 
       <nav className="flex flex-row gap-5 max-md:hidden">
         <Link href="/my-posts">
