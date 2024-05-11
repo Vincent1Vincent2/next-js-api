@@ -7,7 +7,7 @@ export async function authenticateUser() {
     }
   );
   if (response) {
-    const authenticated = await response.json();
+    const authenticated: boolean | undefined = await response.json();
     return authenticated;
   }
 }

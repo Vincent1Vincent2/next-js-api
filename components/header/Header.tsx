@@ -1,17 +1,20 @@
 "use client";
 import { useQuery } from "@tanstack/react-query";
 import { authenticateUser } from "../../apiCalls/users";
-import AdminHeader from "./AdminHeader";
 import GuestHeader from "./GuestHeader";
-import UserHeader, { User } from "./UserHeader";
+import UserHeader from "./UserHeader";
 
 export default function Header() {
-  const response = useQuery<User>({
+  const {
+    isLoading,
+    error,
+    data: auth,
+  } = useQuery<boolean | undefined>({
     queryKey: ["auth"],
     queryFn: authenticateUser,
   });
 
-  if (typeof response.data === "string") {
+  if (auth === false) {
     return (
       <>
         <GuestHeader />
@@ -19,18 +22,10 @@ export default function Header() {
     );
   }
 
-  if (response.data && response.data.isAdmin !== false) {
+  if (auth) {
     return (
       <>
         <UserHeader />
-      </>
-    );
-  }
-
-  if (response.data && response.data.isAdmin === true) {
-    return (
-      <>
-        <AdminHeader />
       </>
     );
   }

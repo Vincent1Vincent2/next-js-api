@@ -1,8 +1,7 @@
 "use client";
-import { useQuery } from "@tanstack/react-query";
 import Link from "next/link";
 import { useState } from "react";
-import { authenticateUser, logOutUser } from "../../apiCalls/users";
+import { logOutUser } from "../../apiCalls/users";
 
 export interface User {
   _id: string;
@@ -12,17 +11,12 @@ export interface User {
 }
 
 export default function UserHeader() {
-  const response = useQuery<User[]>({
-    queryKey: ["auth"],
-    queryFn: authenticateUser,
-  });
   const [drawer, setDrawer] = useState(true);
 
   const handleDrawerToggle = () => {
     setDrawer(!drawer);
     document.body.classList.toggle("overflow-y-hidden");
   };
-  console.log(response.data);
 
   return (
     <header className="flex flex-row p-4 justify-between h-28 items-center border-b-4">
