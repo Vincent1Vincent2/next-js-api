@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import Posts from "../components/posts/Posts";
+import Login from "../components/loginRegister/LoginRegister";
 export default function Home() {
   useEffect(() => {
     let storedTheme =
@@ -32,7 +32,7 @@ export default function Home() {
 
   return (
     <main>
-      <Posts />
+      <Login />
     </main>
   );
 }
