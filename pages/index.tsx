@@ -1,20 +1,10 @@
 "use client";
 
-import { useQuery } from "@tanstack/react-query";
 import { useEffect } from "react";
-import { TailSpin } from "react-loader-spinner";
-import { authenticateUser } from "../apiCalls/users";
+import GuestHeader from "../components/header/GuestHeader";
+import UserHeader from "../components/header/UserHeader";
 
 export function Home() {
-  const {
-    isLoading,
-    error,
-    data: auth,
-  } = useQuery<boolean | undefined>({
-    queryKey: ["auth"],
-    queryFn: authenticateUser,
-  });
-
   useEffect(() => {
     let storedTheme =
       localStorage.getItem("theme") ||
@@ -44,35 +34,12 @@ export function Home() {
     }
   }, []);
 
-  if (isLoading)
-    return (
-      <div
-        style={{
-          position: "fixed",
-          top: "50%",
-          left: "50%",
-          transform: "translate(-50%, -50%)",
-        }}
-      >
-        <TailSpin
-          visible={true}
-          height="80"
-          width="80"
-          color="#FCD53F"
-          ariaLabel="tail-spin-loading"
-          radius="1"
-          wrapperStyle={{}}
-          wrapperClass=""
-        />
-      </div>
-    );
-
-  if (error) return "An error has occurred:" + error.message;
-
-  if (auth === false)
-    return (
-      <div className="flex flex-wrap justify-center gap-5 py-10 mx-2">hi</div>
-    );
+  return (
+    <div className="flex flex-wrap justify-center gap-5 py-10 mx-2">
+      <GuestHeader />
+      <UserHeader />
+    </div>
+  );
 }
 
 export default Home;
