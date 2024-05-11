@@ -4,8 +4,6 @@ import { useQuery } from "@tanstack/react-query";
 import { useEffect } from "react";
 import { TailSpin } from "react-loader-spinner";
 import { authenticateUser } from "../apiCalls/users";
-import GuestHeader from "../components/header/GuestHeader";
-import UserHeader from "../components/header/UserHeader";
 
 export function Home() {
   const {
@@ -73,17 +71,7 @@ export function Home() {
 
   if (auth === false)
     return (
-      <div className="flex flex-wrap justify-center gap-5 py-10 mx-2">
-        <GuestHeader />
-      </div>
-    );
-
-  if (auth === true)
-    return (
-      <div>
-        <UserHeader />
-        <main></main>
-      </div>
+      <div className="flex flex-wrap justify-center gap-5 py-10 mx-2">hi</div>
     );
 }
 
