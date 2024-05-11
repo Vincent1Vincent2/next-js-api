@@ -13,14 +13,14 @@ export default async function handler(
     const user = await User.find({ username: userSessionCookie });
 
     // 2. Check if the user session is valid and has a non-null email
-    if (typeof user === "object" && user.length > 0) {
+    if (typeof userSessionCookie === "string") {
       // User is authenticated
 
-      return res.status(200).json(true);
+      return res.status(200).json(user);
     } else {
       // User is not authenticated
 
-      return res.status(401).json(false);
+      return res.status(401).json("Not supposed to be here?");
     }
   } else {
     return res.status(405).json({ message: "Method Not Allowed" });

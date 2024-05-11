@@ -1,9 +1,10 @@
+import "dotenv/config";
 import mongoose from "mongoose";
 declare global {
   var mongoose: any;
 }
 
-const MONGODB_URI = process.env.MONGODB_URI!;
+const MONGODB_URI = process.env.URI!;
 
 if (!MONGODB_URI) {
   throw new Error("Env not defined");

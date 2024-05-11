@@ -7,7 +7,7 @@ import UserHeader, { User } from "./UserHeader";
 
 export default function Header() {
   const response = useQuery<User[]>({
-    queryKey: ["user"],
+    queryKey: ["User"],
     queryFn: getLoggedInUser,
   });
 

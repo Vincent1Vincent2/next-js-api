@@ -1,6 +1,6 @@
 "use client";
 import { useQuery } from "@tanstack/react-query";
-import { Link } from "react-router-dom";
+import Link from "next/link";
 import { getLoggedInUser, logOutUser } from "../../apiCalls/users";
 import Burgir from "../burgir/Burgir";
 
@@ -34,22 +34,22 @@ export default function AdminHeader() {
         ))}
       </span>
       <nav className="flex flex-row gap-5 max-md:hidden">
-        <Link to="/admin">
+        <Link href="/admin">
           <p className="border-b-2 border-transparent hover:border-b-2 hover:border-gray-400 text-sm text-center max-sm:text-xs">
             Admin Page
           </p>
         </Link>
-        <Link to="/my-posts">
+        <Link href="/my-posts">
           <p className="border-b-2 border-transparent hover:border-b-2 hover:border-gray-400 text-sm text-center max-sm:text-xs">
             My Posts
           </p>
         </Link>
-        <Link to="/create-post">
+        <Link href="/create-post">
           <p className="border-b-2 border-transparent hover:border-b-2 hover:border-gray-400 text-sm text-center max-sm:text-xs">
             New Post
           </p>
         </Link>
-        <Link to="/">
+        <Link href="/">
           <button
             className="border-b-2 hover:border-b-2 border-1 border-red-900 hover:border-gray-400 text-sm text-center max-sm:text-xs"
             onClick={logOutUser}
