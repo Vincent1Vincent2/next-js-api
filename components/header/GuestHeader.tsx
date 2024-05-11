@@ -1,5 +1,8 @@
+import { useState } from "react";
+import { LoginRegister } from "../loginRegister/LoginRegister";
+
 export default function GuestHeader() {
-  /* const [seen, setSeen] = useState(false);
+  const [seen, setSeen] = useState(false);
   const [isRegister, setIsRegister] = useState(false);
 
   function togglePop() {
@@ -46,6 +49,5 @@ export default function GuestHeader() {
         </div>
       </nav>
     </header>
-  ); */
-  return <div>no</div>;
+  );
 }

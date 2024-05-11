@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import Login from "../components/loginRegister/LoginRegister";
+import GuestHeader from "../components/header/GuestHeader";
 export default function Home() {
   useEffect(() => {
     let storedTheme =
@@ -32,7 +32,7 @@ export default function Home() {
 
   return (
     <main>
-      <Login />
+      <GuestHeader />
     </main>
   );
 }
