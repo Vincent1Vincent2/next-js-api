@@ -2,7 +2,7 @@
 import { useQuery } from "@tanstack/react-query";
 import Link from "next/link";
 import { useState } from "react";
-import { getLoggedInUser, logOutUser } from "../../apiCalls/users";
+import { authenticateUser, logOutUser } from "../../apiCalls/users";
 
 export interface User {
   _id: string;
@@ -13,8 +13,8 @@ export interface User {
 
 export default function UserHeader() {
   const response = useQuery<User[]>({
-    queryKey: ["user"],
-    queryFn: getLoggedInUser,
+    queryKey: ["auth"],
+    queryFn: authenticateUser,
   });
   const [drawer, setDrawer] = useState(true);
 

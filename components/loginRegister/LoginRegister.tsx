@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import { loginUser, registerUser } from "../../apiCalls/users";
+import { logInUser, registerUser } from "../../apiCalls/users";
 
 interface LoginProps {
   togglePop: () => void;
@@ -19,15 +19,15 @@ export function LoginRegister(props: LoginProps) {
     try {
       if (props.isRegister) {
         const response = await registerUser(username, password);
-        if (response.status === 400) {
+        if (response?.status === 400) {
           setErrorMessage("Username or Password is invalid");
-        } else if (response.status === 409) {
+        } else if (response?.status === 409) {
           setErrorMessage("Username is taken");
         } else {
           props.togglePop();
         }
       } else {
-        await loginUser(username, password);
+        await logInUser(username, password);
         props.togglePop();
       }
     } catch (error: any) {
