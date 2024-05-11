@@ -6,12 +6,12 @@ import GuestHeader from "./GuestHeader";
 import UserHeader, { User } from "./UserHeader";
 
 export default function Header() {
-  const response = useQuery<User[]>({
+  const response = useQuery<User>({
     queryKey: ["auth"],
     queryFn: authenticateUser,
   });
 
-  if (response.data === undefined) {
+  if (typeof response.data === "string") {
     return (
       <>
         <GuestHeader />
@@ -19,7 +19,7 @@ export default function Header() {
     );
   }
 
-  if (response.data[0] && response.data[0].isAdmin !== true) {
+  if (response.data && response.data.isAdmin !== false) {
     return (
       <>
         <UserHeader />
@@ -27,7 +27,7 @@ export default function Header() {
     );
   }
 
-  if (response.data[0] && response.data[0].isAdmin === true) {
+  if (response.data && response.data.isAdmin === true) {
     return (
       <>
         <AdminHeader />
