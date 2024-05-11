@@ -50,9 +50,6 @@ export default async function handler(
       return res.status(201).json(message);
     } catch (error) {
       console.error("Error in API route:", error);
-      return res.status(500).json({ message: "Internal server error" });
     }
-  } else {
-    return res.status(405).json({ message: "Method Not Allowed" });
   }
 }
