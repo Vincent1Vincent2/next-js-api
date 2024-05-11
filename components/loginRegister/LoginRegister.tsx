@@ -1,48 +1,71 @@
 "use client";
 import { useState } from "react";
-import { authenticateUser, logInUser } from "../../apiCalls/users";
+import { logInUser, registerUser } from "../../apiCalls/users";
 
-export default function Login() {
+interface LoginProps {
+  togglePop: () => void;
+  isRegister: boolean;
+  setIsRegister: (isRegister: boolean) => void;
+}
+
+export function LoginRegister(props: LoginProps) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    // Trim the username and password
-    const trimmedUsername = username.trim();
-    const trimmedPassword = password.trim();
-
     try {
-      await logInUser(trimmedUsername, trimmedPassword);
-      await authenticateUser();
-    } catch (error) {
-      console.error("Error signing in");
+      if (props.isRegister) {
+        const response = await registerUser(username, password);
+
+        console.log(response);
+      } else {
+        await logInUser(username, password);
+        props.togglePop();
+      }
+    } catch (error: any) {
+      console.error(error);
     }
   };
 
+  const handleToggleForm = () => {
+    props.setIsRegister(!props.isRegister);
+  };
+
   return (
-    <div className="loginContainer">
+    <div className="box">
+      <button className="close-button" onClick={props.togglePop}>
+        X
+      </button>
       <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          placeholder="Användarnamn"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-        />
-
-        <input
-          className="input"
-          type="password"
-          value={password}
-          placeholder="Lösenord"
-          onChange={(e) => setPassword(e.target.value)}
-        />
-
-        <button className="loginButton" type="submit">
-          Logga In
-        </button>
+        <label>
+          Username:
+          <input
+            type="text"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+          />
+        </label>
+        <label>
+          Password:
+          <input
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+        </label>
+        <button type="submit">{props.isRegister ? "Register" : "Login"}</button>
       </form>
+      {errorMessage && (
+        <div className="error-message">
+          <p className="text-red-700 font-bold">{errorMessage}</p>
+        </div>
+      )}
+      <p className="cursor-pointer hover:underline" onClick={handleToggleForm}>
+        {props.isRegister ? "Sign In" : "Register"}
+      </p>
     </div>
   );
 }
