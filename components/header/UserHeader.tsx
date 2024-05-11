@@ -1,8 +1,4 @@
 "use client";
-import { useQuery } from "@tanstack/react-query";
-import Link from "next/link";
-import { useState } from "react";
-import { getLoggedInUser, logOutUser } from "../../apiCalls/users";
 
 export interface User {
   _id: string;
@@ -12,7 +8,7 @@ export interface User {
 }
 
 export default function UserHeader() {
-  const response = useQuery<User[]>({
+  /* const response = useQuery<User[]>({
     queryKey: ["user"],
     queryFn: getLoggedInUser,
   });
@@ -97,6 +93,6 @@ export default function UserHeader() {
           </div>
         )}
       </div>
-    </header>
-  );
+    </header> */
+  return <div>no</div>;
 }
