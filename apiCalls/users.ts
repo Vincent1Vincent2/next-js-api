@@ -1,17 +1,17 @@
-export default interface Message {
-  message: boolean;
+export interface User {
+  _id: string;
+  username: string;
+  password: string;
+  isAdmin: boolean;
 }
 
 export async function authenticateUser() {
-  const response = await fetch(
-    "/api/authenticate",
-
-    {
-      method: "GET",
-    }
-  );
+  const response = await fetch("/api/authenticate", {
+    method: "GET",
+  });
   if (response) {
-    const authenticated: boolean | undefined = await response.json();
+    const authenticated = await response.json();
+    console.log(authenticated);
     return authenticated;
   }
 }
