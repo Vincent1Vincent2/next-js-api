@@ -6,14 +6,9 @@ import dbConnect from "../../../../util/dbConnect";
 
 export const dynamic = "force-dynamic";
 
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse
-) {
+export async function POST(req: NextApiRequest, res: NextApiResponse) {
   await dbConnect();
-  if (req.method !== "POST") {
-    return res.status(405).end(); // Method Not Allowed
-  }
+
   const userSessionCookie = req.cookies.username;
   if (!userSessionCookie) {
     // User session cookie not found, user is not authenticated

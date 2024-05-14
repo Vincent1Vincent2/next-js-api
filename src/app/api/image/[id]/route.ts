@@ -1,12 +1,13 @@
 import { Types } from "mongoose";
-import { NextRequest, NextResponse } from "next/server";
+import { NextApiRequest } from "next";
+import { NextResponse } from "next/server";
 import { getImageBucket } from "../../../../../models/image";
 import dbConnect from "../../../../../util/dbConnect";
 
 export const dynamic = "force-dynamic";
 
 export async function GET(
-  req: NextRequest,
+  req: NextApiRequest,
   { params }: { params: { id: string } }
 ) {
   await dbConnect();
