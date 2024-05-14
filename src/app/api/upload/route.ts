@@ -1,61 +1,106 @@
 import busboy from "busboy";
-import { NextApiRequest, NextApiResponse } from "next";
+import { NextRequest, NextResponse } from "next/server";
+import { Readable, pipeline } from "stream";
+import { promisify } from "util";
 import { getImageBucket } from "../../../../models/image";
 import User from "../../../../models/user";
 import dbConnect from "../../../../util/dbConnect";
 
-export const dynamic = "force-dynamic";
+const pipelineAsync = promisify(pipeline);
 
-export async function POST(req: NextApiRequest, res: NextApiResponse) {
+export async function middleware(req: NextRequest) {
   await dbConnect();
 
-  const userSessionCookie = req.cookies.username;
+  const userSessionCookie = req.cookies.get("username");
   if (!userSessionCookie) {
-    // User session cookie not found, user is not authenticated
-    return res.status(401).json({ message: "Unauthorized" });
+    return new NextResponse(JSON.stringify({ message: "Unauthorized" }), {
+      status: 401,
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
   }
 
-  // Find the user by username in the database
   const user = await User.findOne({ username: userSessionCookie });
   if (!user) {
-    // User not found in the database, user is not authenticated
-    return res.status(401).json({ message: "Unauthorized" });
+    return new NextResponse(JSON.stringify({ message: "Unauthorized" }), {
+      status: 401,
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
   }
 
-  const bb = busboy({ headers: req.headers });
+  if (req.method === "POST") {
+    const bb = busboy({ headers: Object.fromEntries(req.headers) });
+    const uploadPromise = new Promise((resolve, reject) => {
+      bb.on("file", async (name, file, info) => {
+        const { filename, mimeType } = info;
+        const bucket = getImageBucket();
+        const uploadStream = bucket.openUploadStream(filename, {
+          metadata: { contentType: mimeType },
+        });
 
-  // Define a promise to handle the file upload process
-  const fileUploadPromise = new Promise((resolve, reject) => {
-    bb.on("file", (_, incomingStream, info) => {
-      const uploadStream = getImageBucket().openUploadStream(info.filename, {
-        metadata: {
-          contentType: info.mimeType,
+        try {
+          await pipelineAsync(file, uploadStream);
+          resolve(uploadStream.id.toString());
+        } catch (error) {
+          reject(error);
+        }
+      });
+
+      bb.on("finish", () => {
+        resolve(null);
+      });
+
+      bb.on("error", (error) => {
+        reject(error);
+      });
+    });
+
+    try {
+      const blob = await req.blob();
+      const bufferStream = new Readable({
+        read() {
+          this.push(blob.stream());
+          this.push(null);
         },
       });
 
-      uploadStream.on("finish", () => {
-        resolve(uploadStream.id); // Resolve with the uploaded image ID
+      bufferStream.pipe(bb);
+
+      const imageId = await uploadPromise;
+      if (!imageId) {
+        return new NextResponse(
+          JSON.stringify({ message: "No file uploaded" }),
+          {
+            status: 400,
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+      }
+
+      return new NextResponse(JSON.stringify({ imageId }), {
+        status: 201,
+        headers: {
+          "Content-Type": "application/json",
+        },
       });
-
-      // Pipe incoming stream through sharp transformer and then to upload stream
-      incomingStream.pipe(uploadStream);
-    });
-
-    // Error handling for the file upload process
-    bb.on("error", (err) => {
-      reject(err); // Reject the promise with the error
-    });
-  });
-
-  // Pipe request to Busboy
-  req.pipe(bb);
-
-  // Wait for the file upload process to complete
-  try {
-    const imageId = await fileUploadPromise;
-    res.status(201).json({ imageId });
-  } catch (error) {
-    console.error("Error uploading file:", error);
-    res.status(500).json({ error: "Internal Server Error" });
+    } catch (error) {
+      console.error("Error uploading file:", error);
+      return new NextResponse(
+        JSON.stringify({ error: "Internal Server Error" }),
+        {
+          status: 500,
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+    }
   }
+
+  return NextResponse.next();
 }

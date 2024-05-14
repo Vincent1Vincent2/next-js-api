@@ -1,9 +1,21 @@
-import { NextApiRequest, NextApiResponse } from "next";
+import { NextRequest, NextResponse } from "next/server";
 
-export async function POST(req: NextApiRequest, res: NextApiResponse) {
+export async function POST(req: NextRequest, res: NextResponse) {
   // Clear the username cookie
-  res.setHeader("Set-Cookie", "username=; Path=/; Max-Age=0");
+
+  res.cookies.set("username", ";", {
+    path: "/",
+    maxAge: 0,
+    httpOnly: true, // Important for security
+    sameSite: "strict",
+  });
 
   const message = { message: "Logged out successfully" };
-  return res.status(200).json(message);
+  const response = new NextResponse(JSON.stringify({ message: message }), {
+    status: 200,
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+  return response;
 }

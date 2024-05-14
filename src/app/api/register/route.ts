@@ -1,16 +1,18 @@
 import bcrypt from "bcrypt";
-import { NextApiRequest, NextApiResponse } from "next";
+import { NextRequest, NextResponse } from "next/server";
 import User from "../../../../models/user";
 import dbConnect from "../../../../util/dbConnect";
 
-export async function POST(req: NextApiRequest, res: NextApiResponse) {
+export async function POST(req: NextRequest, res: NextResponse) {
   try {
-    const { username, password } = req.body;
+    const body = await req.json();
+
+    const { username, password } = body;
     await dbConnect();
 
     // 2: Check if username or password is missing and if, return 400
     if (!username || !password) {
-      return res.status(400).json({ message: "Missing username or password" });
+      return NextResponse.json("Missing username or password", { status: 400 });
     }
 
     // 3: Find user with provided username
@@ -18,26 +20,20 @@ export async function POST(req: NextApiRequest, res: NextApiResponse) {
 
     // 6: If username is taken, return 409
     if (user) {
-      return res.status(409).json("Username is already taken");
+      return NextResponse.json("Username is already taken", { status: 409 });
     }
 
     // 6: If we can't verify hashed password and password from
     if (!(await bcrypt.compare(password, user.password))) {
-      return res.status(401).json({ message: "Invalid username or password" });
+      return NextResponse.json("Invalid username or password", { status: 401 });
     }
 
     // 7: Spread user to remove password
     const { password: _, ...authenticatedUser } = (user as any).toObject();
 
-    // 8: Save the users username as cookie
-    res.setHeader(
-      "Set-Cookie",
-      `username=${username}; Path=/; Max-Age=${60 * 60 * 24 * 7}`
-    );
+    const message = { message: "Registered" };
 
-    const message = { message: "Welcome" };
-
-    return res.status(201).json(message);
+    return NextResponse.json(message, { status: 201 });
   } catch (error) {
     console.error("Error in API route:", error);
   }
