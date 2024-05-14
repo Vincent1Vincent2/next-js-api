@@ -20,3 +20,17 @@ export async function getPost(id: string | undefined) {
   const response = await axios.get(`/api/posts/${id}`);
   return response.data;
 }
+
+export async function getUserPosts() {
+  const response = await axios.get("/api/users/posts");
+  if (response.status === 200) {
+    return response.data;
+  }
+}
+
+export async function deletePost(id: string | undefined) {
+  const response = await axios.delete(`/api/posts/${id}`);
+  if (response.status === 200) {
+    location.replace("/");
+  }
+}
