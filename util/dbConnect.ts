@@ -4,7 +4,7 @@ declare global {
   var mongoose: any;
 }
 
-const MONGODB_URI = process.env.URI!;
+const MONGODB_URI = process.env.MONGODB_URI!;
 
 if (!MONGODB_URI) {
   throw new Error("Env not defined");
@@ -17,6 +17,7 @@ if (!cached) {
 }
 
 async function dbConnect() {
+  console.log("hi");
   if (cached.conn) {
     return cached.conn;
   }

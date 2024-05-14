@@ -1,7 +1,7 @@
 import busboy from "busboy";
 import { NextApiRequest, NextApiResponse } from "next";
-import { getImageBucket } from "../../../models/image";
-import User from "../../../models/user";
+import { getImageBucket } from "../../../../models/image";
+import User from "../../../../models/user";
 
 export const config = {
   api: {

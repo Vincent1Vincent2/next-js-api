@@ -1,5 +1,7 @@
+"use client";
 import { useEffect } from "react";
-import Posts from "../components/posts/Posts";
+import Posts from "../../components/posts/Posts";
+
 export default function Home() {
   useEffect(() => {
     let storedTheme =
@@ -7,9 +9,7 @@ export default function Home() {
       (window.matchMedia("(prefers-color-scheme: dark)").matches
         ? "dark"
         : "light");
-    const script = document.createElement("script");
-    script.src = "https://cdn.tailwindcss.com";
-    script.defer = true;
+
     // Create a new link element for the favicon
     const faviconLink = document.createElement("link");
 
@@ -22,8 +22,6 @@ export default function Home() {
 
     // Append the link element to the document head
     document.head.appendChild(faviconLink);
-
-    document.head.appendChild(script);
 
     if (storedTheme) {
       document.documentElement.setAttribute("data-theme", storedTheme);
