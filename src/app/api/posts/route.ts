@@ -10,12 +10,3 @@ export const GET = async () => {
 
   return Response.json(posts);
 };
-
-export const POST = async () => {
-  // 1: Get all posts
-  await dbConnect();
-
-  const posts = await Post.find().lean().exec();
-
-  return Response.json(posts);
-};

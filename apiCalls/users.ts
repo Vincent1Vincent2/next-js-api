@@ -11,7 +11,6 @@ export async function authenticateUser() {
   });
   if (response) {
     const authenticated = await response.json();
-    console.log(authenticated);
     return authenticated;
   }
 }
@@ -40,21 +39,17 @@ export async function registerUser(username: string, password: string) {
     },
     body: JSON.stringify(signInDetails),
   });
-  if (response.ok) {
+  if (response) {
     window.location.reload();
     return response;
   }
 }
 
 export async function logOutUser() {
-  const response = await fetch(
-    "/api/logout",
-
-    {
-      method: "POST",
-    }
-  );
-  if (response.ok) {
+  const response = await fetch("/api/logout", {
+    method: "POST",
+  });
+  if (response) {
     window.location.reload();
     return response;
   }

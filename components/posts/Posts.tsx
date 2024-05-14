@@ -10,7 +10,7 @@ function ProductsList() {
   useEffect(() => {
     async function fetchProducts() {
       try {
-        const response = await axios.get("/api/products");
+        const response = await axios.get("/api/posts");
         setPosts(response.data);
       } catch (error) {
         console.error("Error fetching products:", error);

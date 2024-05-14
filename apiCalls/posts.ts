@@ -13,6 +13,10 @@ export interface Post {
 
 export async function getPosts() {
   const response = await axios.get("/api/posts");
+  return response.data;
+}
 
+export async function getPost(id: string | undefined) {
+  const response = await axios.get(`/api/posts/${id}`);
   return response.data;
 }

@@ -19,8 +19,6 @@ export function LoginRegister(props: LoginProps) {
     try {
       if (props.isRegister) {
         const response = await registerUser(username, password);
-
-        console.log(response);
       } else {
         await logInUser(username, password);
         await logInUser(username, password);
