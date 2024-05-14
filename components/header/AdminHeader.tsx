@@ -1,8 +1,4 @@
 "use client";
-import { useQuery } from "@tanstack/react-query";
-import Link from "next/link";
-import { getLoggedInUser, logOutUser } from "../../apiCalls/users";
-import Burgir from "../burgir/Burgir";
 
 export interface User {
   username: string;
@@ -11,7 +7,7 @@ export interface User {
 }
 
 export default function AdminHeader() {
-  const response = useQuery<User[]>({
+  /*   const response = useQuery<User[]>({
     queryKey: ["user"],
     queryFn: getLoggedInUser,
   });
@@ -61,5 +57,6 @@ export default function AdminHeader() {
 
       <Burgir />
     </header>
-  );
+  ); */
+  return <div>no</div>;
 }

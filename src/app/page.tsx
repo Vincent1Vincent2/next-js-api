@@ -1,6 +1,6 @@
 "use client";
 import { useEffect } from "react";
-import Posts from "../../components/posts/Posts";
+import GuestHeader from "../../components/header/GuestHeader";
 
 export default function Home() {
   useEffect(() => {
@@ -30,7 +30,7 @@ export default function Home() {
 
   return (
     <main>
-      <Posts />
+      <GuestHeader />
     </main>
   );
 }

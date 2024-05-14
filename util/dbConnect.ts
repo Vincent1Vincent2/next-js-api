@@ -1,4 +1,3 @@
-import "dotenv/config";
 import mongoose from "mongoose";
 declare global {
   var mongoose: any;

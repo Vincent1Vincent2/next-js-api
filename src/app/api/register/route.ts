@@ -30,7 +30,7 @@ export default async function handler(
 
       // 6: If username is taken, return 409
       if (existingUser) {
-        res
+        return res
           .status(409)
           .json((errors.existingUser = "Username is already taken"));
       }
@@ -47,12 +47,9 @@ export default async function handler(
 
       const message = { message: "Authenticated" };
 
-      res.status(201).json(message);
+      return res.status(201).json(message);
     } catch (error) {
       console.error("Error in API route:", error);
-      res.status(500).json({ message: "Internal server error" });
     }
-  } else {
-    res.status(405).json({ message: "Method Not Allowed" });
   }
 }
