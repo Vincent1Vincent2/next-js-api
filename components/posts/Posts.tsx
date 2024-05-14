@@ -21,7 +21,7 @@ function ProductsList() {
 
   return (
     <div>
-      <h1 className="">Products</h1>
+      <h1>Products</h1>
 
       {products?.map((p) => (
         <div key={p._id}>

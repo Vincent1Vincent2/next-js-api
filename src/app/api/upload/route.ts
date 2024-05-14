@@ -4,11 +4,7 @@ import { getImageBucket } from "../../../../models/image";
 import User from "../../../../models/user";
 import dbConnect from "../../../../util/dbConnect";
 
-export const config = {
-  api: {
-    bodyParser: false, // Disable Next.js built-in body parser
-  },
-};
+export const dynamic = "force-dynamic";
 
 export default async function handler(
   req: NextApiRequest,
