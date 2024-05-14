@@ -1,7 +1,4 @@
 "use client";
-import Link from "next/link";
-import { logOutUser } from "../../apiCalls/users";
-import Burgir from "../burgir/Burgir";
 
 export interface User {
   username: string;
@@ -10,6 +7,11 @@ export interface User {
 }
 
 export default function AdminHeader() {
+  /*   const response = useQuery<User[]>({
+    queryKey: ["user"],
+    queryFn: getLoggedInUser,
+  });
+
   return (
     <header className="flex flex-row p-4 justify-between h-28 items-center border-b-4">
       <Link href={"/"}>
@@ -46,5 +48,6 @@ export default function AdminHeader() {
 
       <Burgir />
     </header>
-  );
+  ); */
+  return <div>no</div>;
 }

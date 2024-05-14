@@ -1,3 +1,7 @@
+export default interface Message {
+  message: boolean;
+}
+
 export async function authenticateUser() {
   const response = await fetch(
     "/api/authenticate",
@@ -12,14 +16,14 @@ export async function authenticateUser() {
   }
 }
 
-export async function registerUser(username: string, password: string) {
-  const signUpDetails = { username, password };
-  const response = await fetch("/api/register", {
+export async function logInUser(username: string, password: string) {
+  const signInDetails = { username, password };
+  const response = await fetch("/api/login", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify(signUpDetails),
+    body: JSON.stringify(signInDetails),
   });
   if (response.ok) {
     window.location.reload();
@@ -27,7 +31,7 @@ export async function registerUser(username: string, password: string) {
   }
 }
 
-export async function logInUser(username: string, password: string) {
+export async function registerUser(username: string, password: string) {
   const signInDetails = { username, password };
   const response = await fetch("/api/login", {
     method: "POST",
