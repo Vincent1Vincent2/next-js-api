@@ -9,43 +9,41 @@ export default async function handler(
 ) {
   if (req.method === "POST") {
     try {
-      await dbConnect();
       const { username, password } = req.body;
+      await dbConnect();
 
-      // 2: Validation error if username and password are provided and not empty
-      const errors: { [key: string]: string } = {};
-
-      // 3: Check if username has been provided
-      if (!username) {
-        res.status(400).json((errors.username = "Username is required"));
+      // 2: Check if username or password is missing and if, return 400
+      if (!username || !password) {
+        return res
+          .status(400)
+          .json({ message: "Missing username or password" });
       }
 
-      // 4: Check if password has been provided
-      if (!password) {
-        res.status(400).json((errors.password = "Password is required"));
-      }
-
-      // 5: Check if a username is taken
-      const existingUser = await User.findOne({ username });
+      // 3: Find user with provided username
+      const user = await User.findOne({ username: username });
 
       // 6: If username is taken, return 409
-      if (existingUser) {
-        return res
-          .status(409)
-          .json((errors.existingUser = "Username is already taken"));
+      if (user) {
+        return res.status(409).json("Username is already taken");
       }
 
-      // 7: Hash the users password and save it
-      const hashedPassword = await bcrypt.hash(password, 10);
+      // 6: If we can't verify hashed password and password from
+      if (!(await bcrypt.compare(password, user.password))) {
+        return res
+          .status(401)
+          .json({ message: "Invalid username or password" });
+      }
 
-      // 8: Create a new user with the hashed password
-      const user = await User.create({
-        username,
-        password: hashedPassword,
-        isAdmin: false,
-      });
+      // 7: Spread user to remove password
+      const { password: _, ...authenticatedUser } = (user as any).toObject();
 
-      const message = { message: "Authenticated" };
+      // 8: Save the users username as cookie
+      res.setHeader(
+        "Set-Cookie",
+        `username=${username}; Path=/; Max-Age=${60 * 60 * 24 * 7}`
+      );
+
+      const message = { message: "Welcome" };
 
       return res.status(201).json(message);
     } catch (error) {

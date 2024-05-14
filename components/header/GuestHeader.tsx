@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { useState } from "react";
 import { LoginRegister } from "../loginRegister/LoginRegister";
 
@@ -15,11 +16,11 @@ export default function GuestHeader() {
 
   return (
     <header className="flex flex-row p-4 border-b-2 border-gray-400">
-      <a href="/">
+      <Link href={"/"}>
         <h1 className="text-blue-600 font-bold text-4xl lg:text-5xl max-sm:text-xl hover:cursor-pointer">
           Big sales
         </h1>
-      </a>
+      </Link>
       <span className="flex-1"></span>
       <nav>
         <div className=" flex gap-5">

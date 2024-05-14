@@ -7,9 +7,9 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
+  await dbConnect();
   if (req.method === "POST") {
     const { username, password } = req.body;
-    await dbConnect();
 
     // 2: Check if username or password is missing and if, return 400
     if (!username || !password) {

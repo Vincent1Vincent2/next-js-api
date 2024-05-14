@@ -23,6 +23,7 @@ export function LoginRegister(props: LoginProps) {
         console.log(response);
       } else {
         await logInUser(username, password);
+        await logInUser(username, password);
         props.togglePop();
       }
     } catch (error: any) {

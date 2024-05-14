@@ -11,7 +11,7 @@ export default function Header() {
     );
   }
 
-  if (response.data[0] && response.data[0].isAdmin !== true) {
+  if (auth) {
     return (
       <>
         <UserHeader />
