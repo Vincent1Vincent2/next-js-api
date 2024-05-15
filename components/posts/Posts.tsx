@@ -1,28 +1,17 @@
 "use client";
-import axios from "axios";
+import { useQuery } from "@tanstack/react-query";
 import Link from "next/link";
-import { useEffect, useState } from "react";
-import { Post } from "../../apiCalls/posts";
+import { Post, getPosts } from "../../apiCalls/posts";
 
-function ProductsList() {
-  const [posts, setPosts] = useState<Post[] | []>();
-
-  useEffect(() => {
-    async function fetchProducts() {
-      try {
-        const response = await axios.get("/api/posts");
-        setPosts(response.data);
-      } catch (error) {
-        console.error("Error fetching products:", error);
-      }
-    }
-
-    fetchProducts();
-  }, []);
+function PostList() {
+  const posts = useQuery<Post[]>({
+    queryKey: ["posts"],
+    queryFn: getPosts,
+  });
 
   return (
     <div className="flex flex-wrap justify-center gap-5 py-10 mx-2">
-      {posts?.map((post) => (
+      {posts.data?.map((post) => (
         <Link
           href={`/posts/${post._id}`}
           key={post._id}
@@ -61,4 +50,4 @@ function ProductsList() {
   );
 }
 
-export default ProductsList;
+export default PostList;
