@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
 import { logInUser, registerUser } from "../../apiCalls/users";
+import "./loginRegister.css";
 
 interface LoginProps {
   togglePop: () => void;
@@ -19,13 +20,27 @@ export function LoginRegister(props: LoginProps) {
     try {
       if (props.isRegister) {
         const response = await registerUser(username, password);
+        if (response?.status === 400) {
+          setErrorMessage("Username or Password is invalid");
+        } else if (response?.status === 409) {
+          setErrorMessage("Username is taken");
+        } else {
+          props.togglePop();
+        }
       } else {
-        await logInUser(username, password);
         await logInUser(username, password);
         props.togglePop();
       }
     } catch (error: any) {
-      console.error(error);
+      if (error.response?.status === 400) {
+        setErrorMessage("Username or Password is missing");
+      } else if (error.response?.status === 401) {
+        setErrorMessage("Username Not Found");
+      } else if (error.response?.status === 409) {
+        setErrorMessage("Username is taken");
+      } else {
+        setErrorMessage("An error occurred during the operation.");
+      }
     }
   };
 
@@ -63,7 +78,7 @@ export function LoginRegister(props: LoginProps) {
         </div>
       )}
       <p className="cursor-pointer hover:underline" onClick={handleToggleForm}>
-        {props.isRegister ? "Sign In" : "Register"}
+        {props.isRegister ? "Login" : "Register"}
       </p>
     </div>
   );

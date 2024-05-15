@@ -34,14 +34,14 @@ export async function logInUser(username: string, password: string) {
 
 export async function registerUser(username: string, password: string) {
   const signInDetails = { username, password };
-  const response = await fetch("/api/login", {
+  const response = await fetch("/api/register", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
     body: JSON.stringify(signInDetails),
   });
-  if (response) {
+  if (response.status === 200) {
     window.location.reload();
     return response;
   }
