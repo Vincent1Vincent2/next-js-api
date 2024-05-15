@@ -1,3 +1,5 @@
+import axios from "axios";
+
 export interface User {
   _id: string;
   username: string;
@@ -52,5 +54,26 @@ export async function logOutUser() {
   if (response) {
     window.location.reload();
     return response;
+  }
+}
+
+export async function getAllUsers() {
+  const response = await axios.get("/api/users");
+  return response.data;
+}
+
+export async function giveAdmin(id: string | undefined) {
+  const response = await axios.put(`/api/admin/${id}`);
+  if (response.status === 200) {
+    location.reload();
+    return response.data;
+  }
+}
+
+export async function deleteUser(id: string | undefined) {
+  const response = await axios.delete(`/api/admin/${id}`);
+  if (response.status === 200) {
+    location.reload();
+    return response.data;
   }
 }

@@ -30,6 +30,7 @@ export async function getUserPosts() {
 
 export async function deletePost(id: string | undefined) {
   const response = await axios.delete(`/api/posts/${id}`);
+
   if (response.status === 200) {
     location.replace("/");
   }

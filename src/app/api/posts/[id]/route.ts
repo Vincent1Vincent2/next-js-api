@@ -67,9 +67,6 @@ export async function DELETE(req: NextRequest, res: NextResponse) {
 
     const post = await Post.findById(id);
 
-    console.log("this is user", user);
-    console.log("this is post", post);
-
     if (!post) {
       console.log("No post found for ID:", id);
       return new NextResponse(JSON.stringify({ error: "Post not found" }), {
@@ -80,9 +77,12 @@ export async function DELETE(req: NextRequest, res: NextResponse) {
     // 7: If user is admin, DELETE
     if (user!.isAdmin === true) {
       await post?.deleteOne();
-      return new NextResponse(JSON.stringify({ message: "Post deleted" }), {
-        status: 200,
-      });
+      return new NextResponse(
+        JSON.stringify({ message: "Admin deleted post deleted" }),
+        {
+          status: 200,
+        }
+      );
     }
 
     // 8: If posts author is not the same as current users id return 403
