@@ -11,6 +11,22 @@ export interface Post {
   imagesContainer: string[];
 }
 
+export async function createNewPost(
+  title: string,
+  content: string,
+  price: number,
+  imageId?: string,
+  imagesContainer?: string[]
+) {
+  const postData = { title, content, imageId, price, imagesContainer };
+  const response = await axios.post("/api/posts", postData);
+  if (response.status === 201) {
+    let post = response.data;
+    location.replace(`/posts/${post._id}`);
+    return response.data;
+  }
+}
+
 export async function getPosts() {
   const response = await axios.get("/api/posts");
   return response.data;

@@ -8,7 +8,7 @@ export async function uploadImage(image: File | undefined) {
   const formData = new FormData();
   formData.append("image", image);
 
-  const response = await axios.post("/api/images/", formData, {
+  const response = await axios.post("/api/image", formData, {
     headers: {
       "Content-Type": "multipart/form-data",
     },
